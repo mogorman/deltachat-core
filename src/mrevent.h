@@ -251,13 +251,15 @@ extern "C" {
 
 
 /**
- * Request a HTTP-file from the frontend.
+ * Request a HTTP-file or HTTPS-file from the frontend.
  *
- * @param data1 URL
+ * @param data1 Null-terminated UTF-8 string containing the URL. The string starts with https:// or http://. Must not be free()'d or modified by the frontend.
  *
  * @param data2 0
  *
- * @return The content of the requested file as a null-terminated UTF-8 string. CAVE: The string will be free()'d by the core,
+ * @return The content of the requested file as a null-terminated UTF-8 string;
+ *     Response headers, encodings etc. must be stripped, only the raw file, which may be binary, should be returned.
+ *     CAVE: The string will be free()'d by the core,
  *     so make sure it is allocated using malloc() or a compatible function.
  *     If you cannot provide the content, just return 0.
  */
@@ -267,7 +269,7 @@ extern "C" {
  * Acquire or release a wakelock.
  *
  * The core surrounds critical functions that should not be killed by the operating system with wakelocks.
- * Before a critical function _MR_EVENT_WAKE_LOCK with data1=1_ is called, it it finishes, _MR_EVENT_WAKE_LOCK with data1=0_ is called.
+ * Before a critical function _MR_EVENT_WAKE_LOCK with data1=1_ is called, when it finishes, _MR_EVENT_WAKE_LOCK with data1=0_ is called.
  * If you do not need this functionality, just ignore this event.
  *
  * @param data1 1=acquire wakelock, 0=release wakelock, the core does not make nested or unsynchronized calls

@@ -51,7 +51,8 @@ endif
 pkg = import('pkgconfig')
 pkg.generate(libraries : lib,
              version : version,
-             subdirs : ['deltachat'],
+             libraries: [etpan_libs],
+             subdirs : ['deltachat', 'etpan'],
              name : 'libdeltachat',
              filebase : 'deltachat',
              description : ' Create your own, email-compatible messenger.')

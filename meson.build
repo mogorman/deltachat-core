@@ -41,14 +41,12 @@ subdir('src')
 # Build the binaries.
 subdir('cmdline')
 
-
 version = run_command('git', 'describe', '--tags')
 if version.returncode() != 0
   version = 'unknown-error'
 else
   version = version.stdout().strip()
 endif
-
 
 pkg = import('pkgconfig')
 pkg.generate(libraries : lib,
